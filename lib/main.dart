@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toons/screens/Home_today.dart';
+import 'package:toons/screens/home_screen.dart';
 
 void main() {
   runApp(const App());
@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeToday(),
+      home: HomeScreen(),
     );
   }
 }
