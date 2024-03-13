@@ -89,6 +89,8 @@ flutter:
     - family: Lato
       fonts:
         - asset: assets/fonts/Lato-Bold.ttf
+        - asset: assets/fonts/GamjaFlower-Regular.ttf
+          weight: 400
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
