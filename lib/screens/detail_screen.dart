@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toons/models/webtoon_detail_model.dart';
 import 'package:toons/models/webtoon_episode_model.dart';
 import 'package:toons/services/api_service.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DetailScreen extends StatefulWidget{
   final String title, thumb, id;
@@ -119,37 +120,65 @@ class _DetailScreenState extends State<DetailScreen> {
                     return Column(
                       children: [
                         for(var episode in snapshot.data!)
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.green.shade400,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    episode.title,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.chevron_right_rounded, 
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          Episode(
+                            episode: episode, 
+                            webtoonId: widget.id
+                          ), //에피소드 노출 위젯 메소드호출
                       ],
                     );
                   }
                   return Container();
                 },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Episode extends StatelessWidget {
+  const Episode({
+    Key? key,
+    required this.episode,
+    required this.webtoonId,
+  }):super(key: key);
+
+  final String webtoonId;
+  final WebtoonEpisodeModel episode;
+
+  //웹 사이트로 이동하는 launcher
+  onButtonTap() async {
+    //await launchUrlString("https://google.com");   //launchUrl: Future를 가져다 주는 function이기 때문에 async-await 필수
+    await launchUrlString("https://comic.naver.com.webtoon/detail?titleId=$webtoonId&no=${episode.id}"); 
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onButtonTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.green.shade400,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                episode.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded, 
+                color: Colors.white,
               ),
             ],
           ),

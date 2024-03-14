@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toons/models/webtoon_model.dart';
 import 'package:toons/services/api_service.dart';
@@ -25,7 +26,15 @@ class HomeScreen extends StatelessWidget{
               fontFamily: 'Lato',
             ),
           ),
-        ),  
+        ),
+        actions: [  //actions: AppBar위젯에서 오른쪽에 배치할 위젯목록 정의속성 -왼쪽은 leading 사용
+          IconButton(
+            onPressed: (){
+              FirebaseAuth.instance.signOut;
+            }, 
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: webtoons,

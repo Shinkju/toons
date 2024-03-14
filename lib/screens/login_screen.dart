@@ -19,7 +19,9 @@ class _LoginScreenState extends State<LoginScreen>{
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool isLoading = false;
   String errorMsg = "";
+
   void _fireAuthSignIn(){
     if(emailController.text.isEmpty){
       errorMsg = "이메일을 입력하세요.";
@@ -51,15 +53,12 @@ class _LoginScreenState extends State<LoginScreen>{
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, 
           password: password
-        );
-
-        Fluttertoast.showToast(msg: "$email님 환영합니다:)");
-
-        Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-
+        ).then((Value){
+          setState(() {
+            isLoading = false;
+            _showResisterDialog();
+          });
+        });
       } on FirebaseAuthException catch (e){
         if(e.code == 'user-not-found'){
           errorMsg = '사용자가 존재하지 않습니다.';
@@ -78,8 +77,32 @@ class _LoginScreenState extends State<LoginScreen>{
           toastLength: Toast.LENGTH_SHORT,  //AOS
           timeInSecForIosWeb: 1,            //IOS
         );
+
+        setState(() {
+          isLoading = false;
+        });
       }
     }
+  }
+
+  void _showResisterDialog(){
+    showDialog(
+      context: context, 
+      builder: (context) => AlertDialog(
+        title: const Text('환영합니다 !'),
+        content: const Text('로그인 되었습니다!'),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Navigator.pushReplacement(
+                context, 
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            }, 
+            child: const Text('확인')),
+        ],
+      ),
+    );
   }
   
   @override
@@ -135,17 +158,32 @@ class _LoginScreenState extends State<LoginScreen>{
                   ),
                 ),
               ),
-              Container(
+              /*Container(
                 margin: const EdgeInsets.fromLTRB(0, 2, 5, 0),
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
-                  onPressed: () => _fireAuthSignIn(), //sign in
+                  onPressed: isLoading ? null : _fireAuthSignIn, //sign in
                   child: const Text("로그인"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
                 ),
+                if(isLoading) CircularProgressIndicator(),
+              ),*/
+              Stack(  //Stack: 자식 위젯들을 순서대로 겹쳐서 배치가능한 레이아웃위젯
+                alignment: Alignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: isLoading ? null : _fireAuthSignIn,  //sign in
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ), 
+                    child: const Text("로그인"),
+                  ),
+                  if(isLoading) const CircularProgressIndicator(),
+                ],
               ),
               const SizedBox(height: 50.0,),
               GestureDetector(
