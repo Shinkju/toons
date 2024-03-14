@@ -1,9 +1,15 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:toons/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:toons/screens/home_screen.dart';
+import 'package:toons/screens/login_screen.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const App());
 }
 
@@ -22,7 +28,7 @@ class App extends StatelessWidget {
           PointerDeviceKind.unknown
         },
       ),
-      home: HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }

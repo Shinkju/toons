@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget{
           child: Text(
             "오늘의 툰s",
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 30,
               fontFamily: 'Lato',
             ),
           ),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "972601242895",
+    "project_id": "authentication-f5221",
+    "storage_bucket": "authentication-f5221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972601242895:android:1f0e1adec6fe957e08ba7a",
+        "android_client_info": {
+          "package_name": "com.example.toons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972601242895-c4fhavnj0hrloqr9k5i0j9r5l99jijhc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy6BNGAf5aOJrnzka1xqu1xVIMQe_3Fc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972601242895-c4fhavnj0hrloqr9k5i0j9r5l99jijhc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
