@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:toons/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:toons/screens/home_screen.dart';
+import 'package:toons/screens/loading_screen.dart';
 import 'package:toons/screens/login_screen.dart';
 
 Future<void> main() async{
@@ -42,7 +43,6 @@ class Root extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    // return const SingleChildScrollView(
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {

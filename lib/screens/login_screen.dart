@@ -55,8 +55,12 @@ class _LoginScreenState extends State<LoginScreen>{
           password: password
         ).then((Value){
           setState(() {
-            //isLoading = false;
-            _showResisterDialog();
+            isLoading = false;
+            //_showResisterDialog();
+            Navigator.pushReplacement(
+              context, 
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
           });
         });
       } on FirebaseAuthException catch (e){
@@ -77,15 +81,16 @@ class _LoginScreenState extends State<LoginScreen>{
           toastLength: Toast.LENGTH_SHORT,  //AOS
           timeInSecForIosWeb: 1,            //IOS
         );
+        
 
-        setState(() {
+        /*setState(() {
           isLoading = false;
-        });
+        });*/
       }
     }
   }
 
-  void _showResisterDialog(){
+  /*void _showResisterDialog(){
     showDialog(
       context: context,
       barrierDismissible: false, //화면밖 터치x
@@ -126,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen>{
       context, 
       MaterialPageRoute(builder: (context) => HomeScreen()),
     );
-  }
+  }*/
   
   @override
   Widget build(BuildContext context) {

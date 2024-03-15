@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toons/models/webtoon_detail_model.dart';
 import 'package:toons/models/webtoon_episode_model.dart';
 import 'package:toons/services/api_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+/* shared_preferences : 핸드폰 저장소에 데이터를 담을 때 사용하는 라이브러리 ex) 좋아요 등 */
 
 class DetailScreen extends StatefulWidget{
   final String title, thumb, id;
@@ -22,6 +25,25 @@ class _DetailScreenState extends State<DetailScreen> {
   //호출 api
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  //좋아요클릭 저장소 관리
+  Future initPrefs() async{
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if(likedToons != null){
+      //사용자가 이전에 좋아요를 누른 적이 있다면
+      if(likedToons.contains(widget.id) == true){
+        setState(() {
+          isLiked = true;
+        });
+      }
+    }else{
+      //사용자가 처음앱을 실행할 때 likedToons를 생성
+      await prefs.setStringList('likedToons', []);
+    }
+  }
 
   //초기화 작업 -> initState()를 사용하지 않으면 비동기 작업 즉, api호출에 대한 async-await에 대한 작업이 불가하다. 오류가 발생할 수 있다.
   @override
@@ -29,6 +51,25 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);  //statefulWidget을 사용할 때 HomeScreen에서 받아온 데이터는 widget.id 처럼 widget을 붙여 사용할 수 있다.
     episodes = ApiService.getLatestEpisodesById(widget.id);
+    initPrefs();
+  }
+
+  //좋아요 버튼
+  onHeartTap() async{
+    final likedToons = prefs.getStringList('likedToons');
+    if(likedToons != null){
+      //이미 likedToons에 value가 존재한다면 삭제 (좋아요 취소)
+      if(isLiked){
+        likedToons.remove(widget.id);
+      }else{
+        //아니라면 추가 (좋아요)
+        likedToons.add(widget.id);
+      }
+      await prefs.setStringList('likedToons', likedToons);
+      setState(() {
+        isLiked = !isLiked; //상태에는 반대값 부여
+      });
+    }
   }
 
  @override
@@ -40,6 +81,14 @@ class _DetailScreenState extends State<DetailScreen> {
         elevation: 2,
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
+        actions: [
+          IconButton(
+            onPressed: onHeartTap, 
+            icon: Icon(
+              isLiked ? Icons.favorite_rounded : Icons.favorite_outline_outlined
+            ),
+          ),
+        ],
         title: Text(
             widget.title,
             style: const TextStyle(
@@ -138,7 +187,9 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
-class Episode extends StatelessWidget {
+
+/* EPISODE */
+class Episode extends StatefulWidget {
   const Episode({
     super.key,
     required this.episode,
@@ -148,10 +199,56 @@ class Episode extends StatelessWidget {
   final String webtoonId;
   final WebtoonEpisodeModel episode;
 
+  @override
+  State<Episode> createState() => _EpisodeState();
+}
+
+class _EpisodeState extends State<Episode> {
+  late SharedPreferences prefs;
+  bool isClicked = false;
+
+  //prefs받아오기
+  @override
+  void initState(){
+    super.initState();
+    initPrefs();
+  }
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+  }
+
+  //에피소드클릭 저장소 관리
+  Future<void> initPrefs() async{
+    prefs = await SharedPreferences.getInstance();
+    final clickedEpi = prefs.getStringList('clickedEpi');
+    if(clickedEpi != null){
+      //사용자가 이전에 에피소드를 봤다면
+      if(clickedEpi.contains(widget.episode.id) == true){
+        setState(() {
+          isClicked = true;
+        });
+      }
+    }else{
+      //사용자가 처음앱을 실행할 때 clickedEpi 생성
+      await prefs.setStringList('clickedEpi', []);
+    }
+  }
+
   //웹 사이트로 이동하는 launcher
   onButtonTap() async {
+    //클릭 시 상태변화
+    final clickedEpi = prefs.getStringList('clickedEpi');
+    if(clickedEpi != null){
+      clickedEpi.add(widget.episode.id);
+      await prefs.setStringList('clickedEpi', clickedEpi);
+      setState(() {
+        isClicked = isClicked;
+      });
+    }
+
     //launchUrl: Future를 가져다 주는 function이기 때문에 async-await 필수
-    await launchUrlString("https://comic.naver.com/webtoon/detail?titleId=$webtoonId&no=${episode.id}"); 
+    await launchUrlString("https://comic.naver.com/webtoon/detail?titleId=${widget.webtoonId}&no=${widget.episode.id}");
   }
 
   @override
@@ -162,7 +259,7 @@ class Episode extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.green.shade400,
+          color: isClicked ? Colors.lightGreen.shade100.withOpacity(1.0) : Colors.green.shade400,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -170,10 +267,11 @@ class Episode extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                episode.title,
+                widget.episode.title,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const Icon(

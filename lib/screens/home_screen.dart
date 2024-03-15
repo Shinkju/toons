@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget{
         actions: [  //actions: AppBar위젯에서 오른쪽에 배치할 위젯목록 정의속성 -왼쪽은 leading 사용
           IconButton(
             onPressed: () async {
-              print('로그아웃');
               await FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(
                 context, 
