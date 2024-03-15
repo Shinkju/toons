@@ -106,7 +106,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ],
                       );
                     }
-                    return Text("...");
+                    return const Text("...");
                   },
                 ),
               const SizedBox(
@@ -140,23 +140,23 @@ class _DetailScreenState extends State<DetailScreen> {
 
 class Episode extends StatelessWidget {
   const Episode({
-    Key? key,
+    super.key,
     required this.episode,
     required this.webtoonId,
-  }):super(key: key);
+  });
 
   final String webtoonId;
   final WebtoonEpisodeModel episode;
 
   //웹 사이트로 이동하는 launcher
   onButtonTap() async {
-    //await launchUrlString("https://google.com");   //launchUrl: Future를 가져다 주는 function이기 때문에 async-await 필수
-    await launchUrlString("https://comic.naver.com.webtoon/detail?titleId=$webtoonId&no=${episode.id}"); 
+    //launchUrl: Future를 가져다 주는 function이기 때문에 async-await 필수
+    await launchUrlString("https://comic.naver.com/webtoon/detail?titleId=$webtoonId&no=${episode.id}"); 
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GestureDetector( //GestureDetector: 사용자의 제스처 이벤트 감지 위젯
       onTap: onButtonTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),

@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen>{
           password: password
         ).then((Value){
           setState(() {
-            isLoading = false;
+            //isLoading = false;
             _showResisterDialog();
           });
         });
@@ -87,21 +87,44 @@ class _LoginScreenState extends State<LoginScreen>{
 
   void _showResisterDialog(){
     showDialog(
-      context: context, 
-      builder: (context) => AlertDialog(
-        title: const Text('환영합니다 !'),
-        content: const Text('로그인 되었습니다!'),
-        actions: [
-          TextButton(
-            onPressed: (){
-              Navigator.pushReplacement(
-                context, 
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            }, 
-            child: const Text('확인')),
-        ],
-      ),
+      context: context,
+      barrierDismissible: false, //화면밖 터치x
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          title: const Column(
+            children: <Widget>[
+              Text('환영합니다!'),
+            ],
+          ),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('로그인 되었습니다.'),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('확인'),
+              onPressed: (){
+                Navigator.of(context).pop(); //다이얼로그 닫기(사용자가 확인을 누른 후 페이지가 이동될 수 있게함)
+                _navigatorToHomeSreen();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _navigatorToHomeSreen(){
+    isLoading = false;
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
   
@@ -112,97 +135,91 @@ class _LoginScreenState extends State<LoginScreen>{
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
-                child: const Text(
-                  "툰s",
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontFamily: 'Lato',
-                    color: Colors.green,
+      body: SingleChildScrollView(  //키보드 오버플로우방지
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
+                  child: const Text(
+                    "툰s",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontFamily: 'Lato',
+                      color: Colors.green,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: const Text(
-                  "LOGIN",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Lato'
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: const Text(
+                    "LOGIN",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Lato'
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                child: TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(), label: Text("e-mail"),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(), label: Text("e-mail"),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,  //****처리
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(), label: Text("password"),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,  //****처리
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(), label: Text("password"),
+                    ),
                   ),
                 ),
-              ),
-              /*Container(
-                margin: const EdgeInsets.fromLTRB(0, 2, 5, 0),
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : _fireAuthSignIn, //sign in
-                  child: const Text("로그인"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                  ),
+                Stack(  //Stack: 자식 위젯들을 순서대로 겹쳐서 배치가능한 레이아웃위젯
+                  alignment: Alignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: isLoading ? null : _fireAuthSignIn,  //sign in
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ), 
+                      child: const Text("로그인"),
+                    ),
+                    if(isLoading)
+                      const Positioned(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                  ],
                 ),
-                if(isLoading) CircularProgressIndicator(),
-              ),*/
-              Stack(  //Stack: 자식 위젯들을 순서대로 겹쳐서 배치가능한 레이아웃위젯
-                alignment: Alignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: isLoading ? null : _fireAuthSignIn,  //sign in
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                    ), 
-                    child: const Text("로그인"),
+                const SizedBox(height: 50.0,),
+                GestureDetector(
+                  child: const Text(
+                    "회원가입",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Lato',
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
-                  if(isLoading) const CircularProgressIndicator(),
-                ],
-              ),
-              const SizedBox(height: 50.0,),
-              GestureDetector(
-                child: const Text(
-                  "회원가입",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Lato',
-                    decoration: TextDecoration.underline,
-                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const JoinScreen()),
+                    );
+                  },
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const JoinScreen()),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

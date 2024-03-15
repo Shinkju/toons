@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toons/models/webtoon_model.dart';
+import 'package:toons/screens/login_screen.dart';
 import 'package:toons/services/api_service.dart';
 import 'package:toons/widget/webtoon_widget.dart';
 
@@ -29,8 +30,13 @@ class HomeScreen extends StatelessWidget{
         ),
         actions: [  //actions: AppBar위젯에서 오른쪽에 배치할 위젯목록 정의속성 -왼쪽은 leading 사용
           IconButton(
-            onPressed: (){
-              FirebaseAuth.instance.signOut;
+            onPressed: () async {
+              print('로그아웃');
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                context, 
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
             }, 
             icon: const Icon(Icons.logout),
           ),

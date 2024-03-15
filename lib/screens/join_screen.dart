@@ -67,55 +67,57 @@ class _JoinScreenState extends State<JoinScreen>{
           },
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-                child: const Text(
-                  "툰s와 함께해요",
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontFamily: 'Lato',
-                    color: Colors.green,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
+                  child: const Text(
+                    "툰s와 함께해요",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontFamily: 'Lato',
+                      color: Colors.green,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                child: TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(), label: Text("e-mail"),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(), label: Text("e-mail"),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,  //****처리
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(), label: Text("password"),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,  //****처리
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(), label: Text("password"),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 5, 10, 0),
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () => _fireAuthSignUp(), //sign up
-                  child: const Text("회원가입"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () => _fireAuthSignUp(), //sign up
+                    child: const Text("회원가입"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -21,6 +21,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       //웹앱 scroll -> 화면 오버플로우방지
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
@@ -41,17 +42,18 @@ class Root extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),   //stream에 authStateChanges등록
-        builder: (context, snapshot){ //사용자의 상태변경(로그인/아웃 등)
-          if(!snapshot.hasData){
-            return const LoginScreen();
-          }else{
-            return HomeScreen();
-          }
+    // return const SingleChildScrollView(
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const CircularProgressIndicator();
+        }else if(snapshot.hasData){
+          return HomeScreen();
+        }else{
+          return const LoginScreen();
         }
-      ),
+      },
     );
   }
 }
