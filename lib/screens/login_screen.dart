@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:toons/screens/home_screen.dart';
 import 'package:toons/screens/join_screen.dart';
 
@@ -81,57 +78,9 @@ class _LoginScreenState extends State<LoginScreen>{
           toastLength: Toast.LENGTH_SHORT,  //AOS
           timeInSecForIosWeb: 1,            //IOS
         );
-        
-
-        /*setState(() {
-          isLoading = false;
-        });*/
       }
     }
   }
-
-  /*void _showResisterDialog(){
-    showDialog(
-      context: context,
-      barrierDismissible: false, //화면밖 터치x
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          title: const Column(
-            children: <Widget>[
-              Text('환영합니다!'),
-            ],
-          ),
-          content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text('로그인 되었습니다.'),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('확인'),
-              onPressed: (){
-                Navigator.of(context).pop(); //다이얼로그 닫기(사용자가 확인을 누른 후 페이지가 이동될 수 있게함)
-                _navigatorToHomeSreen();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _navigatorToHomeSreen(){
-    isLoading = false;
-    Navigator.pushReplacement(
-      context, 
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-  }*/
   
   @override
   Widget build(BuildContext context) {

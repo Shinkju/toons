@@ -6,7 +6,6 @@ import 'package:toons/models/webtoon_episode_model.dart';
 import 'package:toons/models/webtoon_model.dart';
 
 class ApiService{
-  //api base url
   static const String baseUrl = "https://webtoon-crawler.nomadcoders.workers.dev";
   static const String today = "today";
 

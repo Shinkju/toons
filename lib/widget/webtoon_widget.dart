@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toons/screens/detail_screen.dart';
 
-//실제 body에 보여지는 위젯
+//실제 노출 위젯
 class Webtoon extends StatelessWidget{
   final String title, thumb, id;
 
@@ -63,7 +63,7 @@ class Webtoon extends StatelessWidget{
                   headers: const{
                     'Referer': 'https://comic.naver.com'
                   },
-                  //1. 웹은 엑박
+                  //웹은 엑박
                   //headers: const {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac 0S X 10_15_7) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",},
                   ),
                 ),

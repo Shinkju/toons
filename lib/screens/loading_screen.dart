@@ -17,18 +17,6 @@ class _LoadingScreenState extends  State<LoadingScreen> {
     super.initState();
     Timer(const Duration(milliseconds: 1500), (){
       checkUserLoggIn();
-      /*StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return const CircularProgressIndicator();
-          }else if(snapshot.hasData){
-            return HomeScreen();
-          }else{
-            return const LoginScreen();
-          }
-        },
-      );*/
     });
   }
 
@@ -61,13 +49,6 @@ class _LoadingScreenState extends  State<LoadingScreen> {
               SizedBox(
                 height: screenHeight * 0.384375,
               ),
-              /*Container(
-                child: Image.asset(
-                  loadingImage,
-                  width: screenWidth * 0.616666,
-                  height: screenHeight * 0.0859375,
-                ),
-              ),*/
               const Expanded(child: SizedBox()), //Expanded: 남은공간 모두 차지
               Align(  //Align: 텍스트 가운데정렬
                 child: Text(
