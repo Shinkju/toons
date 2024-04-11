@@ -1,16 +1,23 @@
-# toons
+# Toons
 
-A new Flutter project.
+< First Flutter project >
 
-## Getting Started
+"Toons"는 요일 별 본인이 원하는 웹툰을 자유롭게 볼 수 있는 AOS 어플리케이션 입니다.
+Flutter와 Dart를 공부하기 위해 제작한 토이 프로젝트이며, Flutter와 Dart를 활용한 기본적인 기능들이 포함되어 있습니다.
 
-This project is a starting point for a Flutter application.
+## Team
+개인 프로젝트
 
-A few resources to get you started if this is your first Flutter project:
+## 프로젝트 일정
+2024/03/12 ~ 2024/03/16
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Skills
+AOS / Flutter / Dart / Firebase Auth
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Function
+<ul>
+  <li>Firebase Auth를 사용한 사용자 로그인 / 회원가입</li>
+  <li>사용자 인증 토큰 관리를 통하여 어플 접속 시 자동 로그인</li>
+  <li>사용자의 디바이스에 상태 저장 관리(관심웹툰 설정에 대한 액션 상태 저장)</li>
+  <li>전체 화면 UI 및 외부 API 연동 관리</li>
+</ul>
