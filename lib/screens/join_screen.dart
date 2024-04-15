@@ -26,12 +26,12 @@ class _JoinScreenState extends State<JoinScreen>{
     if(errorMsg.isNotEmpty){
       Fluttertoast.showToast(
         msg: errorMsg,
-        gravity: ToastGravity.TOP, //위치
+        gravity: ToastGravity.TOP,
         backgroundColor: Colors.white,
         textColor: Colors.red,
         fontSize: 20,
-        toastLength: Toast.LENGTH_SHORT,  //AOS
-        timeInSecForIosWeb: 1,            //IOS
+        toastLength: Toast.LENGTH_SHORT,  //aos
+        timeInSecForIosWeb: 1,            //ios
       );
     }else{
       try{
@@ -41,14 +41,12 @@ class _JoinScreenState extends State<JoinScreen>{
         );
 
         Fluttertoast.showToast(msg: "회원가입이 완료되었습니다.");
-
         Navigator.pushReplacement(
           context, 
           MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
 
       } on FirebaseAuthException catch (e){
-        print('Failed with error code: ${e.code}');
         Fluttertoast.showToast(msg: e.message!);
       }
     }

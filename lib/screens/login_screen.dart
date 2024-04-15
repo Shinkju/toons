@@ -29,12 +29,12 @@ class _LoginScreenState extends State<LoginScreen>{
     if(errorMsg.isNotEmpty){
       Fluttertoast.showToast(
         msg: errorMsg,
-        gravity: ToastGravity.TOP, //위치
+        gravity: ToastGravity.TOP,
         backgroundColor: Colors.white,
         textColor: Colors.redAccent,
         fontSize: 20,
-        toastLength: Toast.LENGTH_SHORT,  //AOS
-        timeInSecForIosWeb: 1,            //IOS
+        toastLength: Toast.LENGTH_SHORT,  //aos
+        timeInSecForIosWeb: 1,            //ios
       );
     }else{
       _fireAuthLogin(emailController.text.trim(), passwordController.text.trim());
@@ -42,10 +42,8 @@ class _LoginScreenState extends State<LoginScreen>{
   }
 
   void _fireAuthLogin(String email, String password) async{
-    if(_formKey.currentState!.validate()){ //키보드숨기기
+    if(_formKey.currentState!.validate()){
       FocusScope.of(context).requestFocus(FocusNode());
-
-      //Firebase Auth
       try{
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, 
@@ -71,12 +69,12 @@ class _LoginScreenState extends State<LoginScreen>{
 
         Fluttertoast.showToast(
           msg: errorMsg,
-          gravity: ToastGravity.TOP, //위치
+          gravity: ToastGravity.TOP,
           backgroundColor: Colors.white,
           textColor: Colors.red,
           fontSize: 20,
-          toastLength: Toast.LENGTH_SHORT,  //AOS
-          timeInSecForIosWeb: 1,            //IOS
+          toastLength: Toast.LENGTH_SHORT,  //aos
+          timeInSecForIosWeb: 1,            //ios
         );
       }
     }
@@ -89,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen>{
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(  //키보드 오버플로우방지
+      body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Padding(
@@ -136,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen>{
                     ),
                   ),
                 ),
-                Stack(  //Stack: 자식 위젯들을 순서대로 겹쳐서 배치가능한 레이아웃위젯
+                Stack(
                   alignment: Alignment.center,
                   children: [
                     ElevatedButton(

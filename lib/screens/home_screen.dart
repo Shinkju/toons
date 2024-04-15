@@ -6,7 +6,6 @@ import 'package:toons/services/api_service.dart';
 import 'package:toons/widget/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget{
- // const HomeToday({super.key}); //Future를 사용하면 미리 값을 알고있어야 하는 const사용불가
   HomeScreen({super.key});
 
   final Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
@@ -28,7 +27,7 @@ class HomeScreen extends StatelessWidget{
             ),
           ),
         ),
-        actions: [  //actions: AppBar위젯에서 오른쪽에 배치할 위젯목록 정의속성 -왼쪽은 leading 사용
+        actions: [
           IconButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
@@ -43,19 +42,19 @@ class HomeScreen extends StatelessWidget{
       ),
       body: FutureBuilder(
         future: webtoons,
-        builder: (context, snapshot){ //snapshot을 통해 에러여부 확인
+        builder: (context, snapshot){ 
           if(snapshot.hasData){
             return Column(
               children: [
                 const SizedBox(
                   height: 50,
                 ),
-                Expanded(child: makeList(snapshot)) //Expanded: 위젯크기에 맞게 자식분배
+                Expanded(child: makeList(snapshot))
               ],
             );
           }
           return const Center(
-            child: CircularProgressIndicator(), //data를 아직 못받았을때
+            child: CircularProgressIndicator(),
           );
         },
       ),
@@ -64,14 +63,14 @@ class HomeScreen extends StatelessWidget{
 
   ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
      return ListView.separated(
-      scrollDirection: Axis.horizontal, //필요할 때 만들어짐
+      scrollDirection: Axis.horizontal,
       itemCount: snapshot.data!.length,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),  //옆스크롤시 벽에붙음방지
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       itemBuilder: (context, index) {
         var webtoon = snapshot.data![index];
         return Webtoon(title: webtoon.title, thumb: webtoon.thumb, id: webtoon.id);
       },
-      separatorBuilder: (context, index) => const SizedBox(width: 20,), //구분자
+      separatorBuilder: (context, index) => const SizedBox(width: 20,),
     );
   }
 }

@@ -45,12 +45,12 @@ class _LoadingScreenState extends  State<LoadingScreen> {
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[ //<Widget>[] : 비어있는 위젯리스트를 생성한다는 의미
+            children: <Widget>[
               SizedBox(
                 height: screenHeight * 0.384375,
               ),
-              const Expanded(child: SizedBox()), //Expanded: 남은공간 모두 차지
-              Align(  //Align: 텍스트 가운데정렬
+              const Expanded(child: SizedBox()),
+              Align(
                 child: Text(
                   '툰s',
                   style: TextStyle(

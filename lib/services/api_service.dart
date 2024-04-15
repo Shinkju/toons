@@ -9,13 +9,13 @@ class ApiService{
   static const String baseUrl = "https://webtoon-crawler.nomadcoders.workers.dev";
   static const String today = "today";
 
-  /* 웹툰 List */
-  static Future<List<WebtoonModel>> getTodaysToons() async {  //Future: 당장 완료될 수 있는 작업이 아닌 것
+  /* List */
+  static Future<List<WebtoonModel>> getTodaysToons() async {
     List<WebtoonModel> webtoonInstance = [];
     final url = Uri.parse('$baseUrl/$today');
-    final response = await http.get(url); //대기를 위한 비동기
+    final response = await http.get(url);
 
-    if(response.statusCode == 200){ //jsonDecode는 dynamic type
+    if(response.statusCode == 200){
       final List<dynamic> webtoons = jsonDecode(response.body);
       for(var webtoon in webtoons){
         webtoonInstance.add(WebtoonModel.fromJson(webtoon));
@@ -26,7 +26,7 @@ class ApiService{
   }
 
 
-  /* 웹툰 One */
+  /* One */
   static Future<WebtoonDetailModel> getToonById(String id) async{
     final url = Uri.parse("$baseUrl/$id");
     final response = await http.get(url);
@@ -38,7 +38,7 @@ class ApiService{
   }
 
 
-  /* 웹툰 epi */
+  /* epi */
   static Future<List<WebtoonEpisodeModel>> getLatestEpisodesById(String id) async{
     List<WebtoonEpisodeModel> episodesInstance = [];
     final url = Uri.parse("$baseUrl/$id/episodes");
